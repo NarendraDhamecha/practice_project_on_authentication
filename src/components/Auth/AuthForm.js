@@ -19,33 +19,37 @@ const AuthForm = () => {
 
     setIsLoading(true);
     try {
+      let url = null;
       if (isLogin) {
+        url =
+          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDwX1LEI0sFtNSiRy9x1fnxL52NZXOX-s0";
       } else {
-        const res = await fetch(
-          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDwX1LEI0sFtNSiRy9x1fnxL52NZXOX-s0",
-          {
-            method: "POST",
-            body: JSON.stringify({
-              email: enteredEmail,
-              password: enteredPassword,
-              returnSecureToken: true,
-            }),
-            headers: {
-              "content-type": "application/json",
-            },
-          }
-        );
-       setIsLoading(false);
-       if(res.ok){
-        
-       }else{
+        url =
+          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDwX1LEI0sFtNSiRy9x1fnxL52NZXOX-s0";
+      }
+      const res = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          email: enteredEmail,
+          password: enteredPassword,
+          returnSecureToken: true,
+        }),
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+
+      setIsLoading(false);
+      
+      if (res.ok) {
+        const data = await res.json();
+        console.log(data);
+      } else {
         const data = await res.json();
         throw new Error(data.error.message);
-       }
-       
       }
     } catch (e) {
-       alert(e);
+      alert(e);
     }
   };
 
@@ -62,7 +66,11 @@ const AuthForm = () => {
           <input ref={passwordRef} type="password" id="password" required />
         </div>
         <div className={classes.actions}>
-          {isLoading? <p>Sending request...</p> : <button>{isLogin ? "Login" : "Create Account"}</button>}
+          {isLoading ? (
+            <p>Sending request...</p>
+          ) : (
+            <button>{isLogin ? "Login" : "Create Account"}</button>
+          )}
           <button
             type="button"
             className={classes.toggle}
