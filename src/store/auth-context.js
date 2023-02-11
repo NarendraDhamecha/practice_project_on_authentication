@@ -18,13 +18,13 @@ export const AuthContextProvider = (props) => {
 
   const logoutHandler = () => {
     setToken(null);
-    console.log('log out run')
   };
 
   const contextValue = {
     token: token,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
+    logout : logoutHandler
   };
 
   return (
