@@ -1,10 +1,13 @@
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import classes from "./ProfileForm.module.css";
 
 const ProfileForm = () => {
   const authCtx = useContext(AuthContext);
   const enteredPassword = useRef("");
+  const history = useHistory();
+  const [showMessage, setShowMessage] = useState(false);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -28,7 +31,7 @@ const ProfileForm = () => {
       const data = await res.json();
 
       if (res.ok) {
-        console.log("password successfully changed");
+       setShowMessage(true);
       } else {
         throw new Error(data.error.message);
       }
@@ -50,6 +53,7 @@ const ProfileForm = () => {
       </div>
       <div className={classes.action}>
         <button>Change Password</button>
+        {showMessage && <h2>Password Successfully Changed</h2>}
       </div>
     </form>
   );
