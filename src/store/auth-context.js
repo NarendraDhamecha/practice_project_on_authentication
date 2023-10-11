@@ -15,12 +15,15 @@ export const AuthContextProvider = (props) => {
 
   useEffect(() => {
     let id = null;
+    console.log('useeffect');
     if (token) {
       id = setTimeout(() => {
+        console.log('interval');
         localStorage.removeItem("token");
-      }, 1000 * 300);
+      }, 10000);
     }
     return () => {
+      console.log('cleanup');
       clearTimeout(id);
     };
   }, [token]);

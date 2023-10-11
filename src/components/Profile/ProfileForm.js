@@ -1,12 +1,10 @@
 import { useContext, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import classes from "./ProfileForm.module.css";
 
 const ProfileForm = () => {
   const authCtx = useContext(AuthContext);
   const enteredPassword = useRef("");
-  const history = useHistory();
   const [showMessage, setShowMessage] = useState(false);
 
   const submitHandler = async (e) => {
